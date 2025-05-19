@@ -1,0 +1,113 @@
+body {
+  background-image: url('img/wp.jpg');
+  background-size: cover;         /* Ajusta la imagen para cubrir toda la pantalla */
+  background-position: center;    /* Centra la imagen */
+  background-repeat: no-repeat;   /* Evita que se repita */
+  color: white;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+h1, h2 {
+  color: #318456;
+  text-align: center;
+}
+
+select {
+  padding: 10px;
+  font-size: 16px;
+  margin: 0 auto;
+  display: block;
+}
+
+#listaAcciones {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 0;
+}
+
+#listaAcciones li {
+  background-color: rgba(51, 51, 51, 0.85); /* Fondo más opaco */
+  margin: 8px 0;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  text-align: left;
+}
+
+#listaAcciones li:hover {
+  background-color: rgba(209, 17, 17, 0.9);
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+  background-color: #2c2c2c;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 10px;
+  color: white;
+}
+
+.cerrar {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cerrar:hover {
+  color: #fff;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+  background-color: #2c2c2c;
+  margin: 10% auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 10px;
+  color: white;
+}
+
+.cerrar {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.cerrar:hover {
+  color: #fff;
+}
+
+

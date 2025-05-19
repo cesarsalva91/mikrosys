@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Gestión MikroTik</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Sistema de Gestión MikroTik</h1>
+  <label for="equipoSelect">Seleccionar equipo</label>
+  <select id="equipoSelect"></select>
+  <h2>Acciones disponibles</h2>
+  <ul id="listaAcciones"></ul>
+
+  <!-- Modales dinámicos -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="cerrar" id="cerrarModal">&times;</span>
+      <h2>Crear nuevo usuario</h2>
+      <form id="formCrearUsuario">
+        <input type="text" id="nuevoUsuario" placeholder="Nombre de usuario" required>
+        <input type="password" id="claveUsuario" placeholder="Contraseña" required>
+        <input type="text" id="grupoUsuario" placeholder="Grupo" required>
+        <button type="submit">Crear Usuario</button>
+      </form>
+      <p id="resultadoCreacion"></p>
+    </div>
+  </div>
+
+  <div id="modalGrupo" class="modal">
+    <div class="modal-content">
+      <span class="cerrar" id="cerrarModalGrupo">&times;</span>
+      <h2>Crear grupo de usuarios</h2>
+      <form id="formCrearGrupo">
+        <input type="text" id="nombreGrupo" placeholder="Nombre del grupo" required>
+
+        <div id="politicasContainer">
+          <label><input type="checkbox" value="read"> read</label>
+          <label><input type="checkbox" value="write"> write</label>
+          <label><input type="checkbox" value="reboot"> reboot</label>
+          <label><input type="checkbox" value="ssh"> ssh</label>
+          <label><input type="checkbox" value="ftp"> ftp</label>
+          <label><input type="checkbox" value="policy"> policy</label>
+          <label><input type="checkbox" value="winbox"> winbox</label>
+          <label><input type="checkbox" value="web"> web</label>
+          <label><input type="checkbox" value="sniff"> sniff</label>
+          <label><input type="checkbox" value="sensitive"> sensitive</label>
+        </div>
+
+        <p id="skinNombreAuto">Nombre del skin: (se definirá según el archivo seleccionado)</p>
+        <input type="file" id="archivoSkin" accept=".json,.zip">
+        <br>
+        <br>
+        <button type="submit">Crear Grupo</button>
+        <p id="resultadoGrupo"></p>
+      </form>
+    </div>
+  </div>
+
+  <div id="modalRomon" class="modal">
+    <div class="modal-content">
+      <span class="cerrar" id="cerrarModalRomon">&times;</span>
+      <h2>Activar/Desactivar ROMON</h2>
+      <button onclick="modificarRomon(true)">Activar ROMON</button>
+      <button onclick="modificarRomon(false)">Desactivar ROMON</button>
+      <p id="resultadoRomon"></p>
+    </div>
+  </div>
+
+  <div id="modalEliminar" class="modal">
+    <div class="modal-content">
+      <span class="cerrar" id="cerrarModalEliminar">&times;</span>
+      <h2>Eliminar Usuario o Grupo</h2>
+      <button onclick="cargarDatosEliminacion()">Cargar lista</button>
+      <h3>Usuarios</h3>
+      <ul id="listaUsuarios"></ul>
+      <h3>Grupos</h3>
+      <ul id="listaGrupos"></ul>
+      <p id="resultadoEliminacion"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
