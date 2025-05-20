@@ -25,7 +25,7 @@ def obtener_acciones():
     acciones = [
         "1 - Cargar grupo de usuario",
         "2 - Crear usuarios",
-        "3 - Eliminar grupo o usuario (por nombre exacto)",
+        "3 - Eliminar grupo o usuario ",
         "4 - Modificar NTP",
         "5 - Modificar SNMP",
         "6 - Activar/Desactivar ROMON",

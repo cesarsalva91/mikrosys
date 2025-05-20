@@ -110,4 +110,25 @@ select {
   color: #fff;
 }
 
+.form-grupo {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-control {
+  padding: 8px 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+  background-color: #fdfdfd;
+  color: #333;
+}
+
+.input-control:focus {
+  border-color: #4b6cb7;
+  outline: none;
+  box-shadow: 0 0 3px rgba(75, 108, 183, 0.5);
+}
 

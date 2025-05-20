@@ -78,13 +78,22 @@
   <div class="modal-content">
     <span class="cerrar" onclick="cerrarModalEliminarDirecto()">&times;</span>
     <h2>Eliminar por nombre</h2>
-    <select id="tipoEliminacion">
-      <option value="usuario">Usuario</option>
-      <option value="grupo">Grupo</option>
-    </select>
-    <input type="text" id="nombreEliminar" placeholder="Nombre exacto a eliminar">
-    <button onclick="eliminarDirectamente()">Eliminar</button>
-    <p id="resultadoEliminarDirecto"></p>
+
+<div class="form-grupo">
+  <label for="tipoEliminacion">Tipo de objeto:</label>
+  <select id="tipoEliminacion" class="input-control">
+    <option value="usuario">Usuario</option>
+    <option value="grupo">Grupo</option>
+  </select>
+</div>
+
+<div class="form-grupo">
+  <label for="nombreEliminar">Nombre exacto:</label>
+  <input type="text" id="nombreEliminar" class="input-control" placeholder="Nombre a eliminar">
+</div>
+
+<button class="boton-accion" onclick="eliminarDirectamente()">Eliminar</button>
+<p id="resultadoEliminarDirecto"></p>
   </div>
 </div>
 
