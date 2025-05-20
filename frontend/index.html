@@ -97,6 +97,30 @@
   </div>
 </div>
 
+<div id="modalNTP" class="modal">
+  <div class="modal-content">
+    <span class="cerrar" id="cerrarModalNTP">&times;</span>
+    <h2>Modificar configuración NTP</h2>
+    <form id="formModificarNTP">
+      <div class="form-grupo">
+        <label>
+          <input type="checkbox" id="ntpHabilitado" checked>
+          Activar NTP
+        </label>
+      </div>
+      <div class="form-grupo">
+        <label for="ntpPrimario">Servidor NTP Primario:</label>
+        <input class="input-control" type="text" id="ntpPrimario" required>
+      </div>
+      <div class="form-grupo">
+        <label for="ntpSecundario">Servidor NTP Secundario (opcional):</label>
+        <input class="input-control" type="text" id="ntpSecundario">
+      </div>
+      <button type="submit" class="input-control">Aplicar</button>
+    </form>
+    <p id="resultadoNTP"></p>
+  </div>
+</div>
 
 
 

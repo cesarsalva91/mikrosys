@@ -132,3 +132,9 @@ select {
   box-shadow: 0 0 3px rgba(75, 108, 183, 0.5);
 }
 
+#resultadoNTP {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+

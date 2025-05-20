@@ -262,6 +262,7 @@ def modificar_ntp():
     id_equipo = data['idEquipo']
     ntp_primario = data['ntpPrimario']
     ntp_secundario = data.get('ntpSecundario', None)
+    habilitado = data.get('habilitado', True)
 
     conexion = obtener_conexion()
     cursor = conexion.cursor(dictionary=True)
@@ -279,7 +280,8 @@ def modificar_ntp():
         usuario_api=equipo['usuario'],
         clave_api=equipo['contrasena'],
         ntp_primario=ntp_primario,
-        ntp_secundario=ntp_secundario
+        ntp_secundario=ntp_secundario,
+        habilitado=habilitado
     )
 
     return jsonify({'mensaje': mensaje}), 200 if exito else 500

@@ -35,12 +35,16 @@ document.getElementById('listaAcciones').addEventListener('click', function (e) 
   if (texto.startsWith("1")) {
     document.getElementById('modalGrupo').style.display = 'block';
   }
-  if (texto.startsWith("3")) {
-  document.getElementById('modalEliminarDirecto').style.display = 'block';
-  }
   if (texto.startsWith("2")) {
     document.getElementById('modal').style.display = 'block';
   }
+  if (texto.startsWith("3")) {
+  document.getElementById('modalEliminarDirecto').style.display = 'block';
+  }
+  if (texto.startsWith("4")) {
+  document.getElementById('modalNTP').style.display = 'block';
+}
+
   if (texto.startsWith("6")) {
     document.getElementById('modalRomon').style.display = 'block';
   }
@@ -267,6 +271,50 @@ function eliminarDirectamente() {
 function cerrarModalEliminarDirecto() {
   document.getElementById('modalEliminarDirecto').style.display = 'none';
 }
+
+document.getElementById('formModificarNTP').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const idEquipo = document.getElementById('equipoSelect').value;
+  const ntpPrimario = document.getElementById('ntpPrimario').value.trim();
+  const ntpSecundario = document.getElementById('ntpSecundario').value.trim();
+  const resultado = document.getElementById('resultadoNTP');
+  const habilitado = document.getElementById('ntpHabilitado').checked;
+
+
+  if (!idEquipo || !ntpPrimario) {
+    resultado.textContent = 'Debe seleccionar un equipo y completar el NTP primario.';
+    resultado.style.color = 'salmon';
+    return;
+  }
+
+  fetch('http://localhost:5000/api/modificar-ntp', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      idEquipo,
+      ntpPrimario,
+      ntpSecundario: ntpSecundario || null,
+      habilitado
+    })
+
+  })
+    .then(res => res.json().then(data => ({ status: res.status, body: data })))
+    .then(({ status, body }) => {
+      resultado.textContent = body.mensaje;
+      resultado.style.color = status === 200 ? 'lightgreen' : 'salmon';
+    })
+    .catch(err => {
+      resultado.textContent = 'Error al modificar NTP.';
+      resultado.style.color = 'salmon';
+      console.error(err);
+    });
+});
+
+document.getElementById('cerrarModalNTP').addEventListener('click', function () {
+  document.getElementById('modalNTP').style.display = 'none';
+});
+
 
 
 
