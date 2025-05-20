@@ -59,14 +59,20 @@
   </div>
 
   <div id="modalRomon" class="modal">
-    <div class="modal-content">
-      <span class="cerrar" id="cerrarModalRomon">&times;</span>
-      <h2>Activar/Desactivar ROMON</h2>
-      <button onclick="modificarRomon(true)">Activar ROMON</button>
-      <button onclick="modificarRomon(false)">Desactivar ROMON</button>
-      <p id="resultadoRomon"></p>
-    </div>
+  <div class="modal-content">
+    <span class="cerrar" id="cerrarModalRomon">&times;</span>
+    <h2>Activar/Desactivar ROMON</h2>
+    <label for="romonSecretInput">Contraseña (secret):</label>
+    <input type="password" id="romonSecretInput" placeholder="Ingrese el secret">
+    <button onclick="guardarSecretRomon()">Aplicar Secret</button>
+    <br><br>
+    <button onclick="modificarRomon(true)">Activar ROMON</button>
+    <button onclick="modificarRomon(false)">Desactivar ROMON</button>
+    <p id="resultadoRomon"></p>
+
   </div>
+</div>
+
 
   <div id="modalEliminar" class="modal">
     <div class="modal-content">

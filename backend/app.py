@@ -84,6 +84,7 @@ def toggle_romon():
     data = request.get_json()
     id_equipo = data['idEquipo']
     habilitar = data['habilitar']
+    secret_romon = data.get('secret', None)
 
     conexion = obtener_conexion()
     cursor = conexion.cursor(dictionary=True)
@@ -100,10 +101,41 @@ def toggle_romon():
         puerto=equipo['puerto'],
         usuario_api=equipo['usuario'],
         clave_api=equipo['contrasena'],
-        habilitar=habilitar
+        habilitar=habilitar,
+        secret=secret_romon
     )
 
     return jsonify({'mensaje': mensaje}), 200 if exito else 400
+
+@app.route('/api/aplicar-secret', methods=['POST'])
+def aplicar_secret_romon_endpoint():
+    data = request.get_json()
+    id_equipo = data['idEquipo']
+    secret = data['secret']
+
+    conexion = obtener_conexion()
+    cursor = conexion.cursor(dictionary=True)
+    cursor.execute("SELECT ip, puerto, usuario, contrasena FROM equipos WHERE id = %s", (id_equipo,))
+    equipo = cursor.fetchone()
+    cursor.close()
+    conexion.close()
+
+    if not equipo:
+        return jsonify({'mensaje': 'Equipo no encontrado'}), 404
+
+    from mikrotik.romon_manager import aplicar_secret_romon  # asegurate que esté importado
+
+    exito, mensaje = aplicar_secret_romon(
+        ip=equipo['ip'],
+        puerto=equipo['puerto'],
+        usuario_api=equipo['usuario'],
+        clave_api=equipo['contrasena'],
+        secret=secret
+    )
+
+    return jsonify({'mensaje': mensaje}), 200 if exito else 500
+
+
 
 @app.route('/api/crear-grupo', methods=['POST'])
 def crear_grupo():

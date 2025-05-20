@@ -79,24 +79,7 @@ document.getElementById('formCrearUsuario').addEventListener('submit', function 
     });
 });
 
-// Activar / Desactivar ROMON
-function modificarRomon(habilitar) {
-  const idEquipo = document.getElementById('equipoSelect').value;
 
-  fetch('http://localhost:5000/api/romon', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ idEquipo, habilitar })
-  })
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById('resultadoRomon').textContent = data.mensaje;
-    })
-    .catch(err => {
-      document.getElementById('resultadoRomon').textContent = 'Error al modificar ROMON.';
-      console.error(err);
-    });
-}
 
 // Mostrar nombre de skin automáticamente al seleccionar archivo
 document.getElementById('archivoSkin').addEventListener('change', function () {
@@ -182,6 +165,74 @@ function crearGrupo(idEquipo, nombre, politicas, skin, resultado) {
       console.error(err);
     });
 }
+let romonSecret = null;
+
+function guardarSecretRomon() {
+  const secretInput = document.getElementById('romonSecretInput').value.trim();
+  const idEquipo = document.getElementById('equipoSelect').value;
+  const resultado = document.getElementById('resultadoRomon');
+
+  if (!secretInput) {
+    resultado.textContent = 'Debe ingresar una contraseña para el secret.';
+    resultado.style.color = 'salmon';
+    return;
+  }
+
+  if (!idEquipo) {
+    resultado.textContent = 'Debe seleccionar un equipo.';
+    resultado.style.color = 'salmon';
+    return;
+  }
+
+  fetch('http://localhost:5000/api/aplicar-secret', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ idEquipo, secret: secretInput })
+  })
+    .then(res => res.json().then(data => ({ status: res.status, body: data })))
+    .then(({ status, body }) => {
+      resultado.textContent = body.mensaje;
+      resultado.style.color = status === 200 ? 'lightgreen' : 'salmon';
+    })
+    .catch(err => {
+      resultado.textContent = 'Error al aplicar el secret.';
+      resultado.style.color = 'salmon';
+      console.error(err);
+    });
+}
+
+
+
+function modificarRomon(habilitar) {
+  const idEquipo = document.getElementById('equipoSelect').value;
+  const resultado = document.getElementById('resultadoRomon');
+
+  if (!idEquipo) {
+    resultado.textContent = 'Debe seleccionar un equipo.';
+    resultado.style.color = 'salmon';
+    return;
+  }
+
+  fetch('http://localhost:5000/api/romon', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ idEquipo, habilitar, secret: romonSecret })
+  })
+  .then(res => res.json().then(data => ({ status: res.status, body: data })))
+  .then(({ status, body }) => {
+  const resultado = document.getElementById('resultadoRomon');
+  resultado.textContent = body.mensaje;
+  resultado.style.color = status === 200 ? 'lightgreen' : 'salmon';
+  })
+
+  .catch(err => {
+    resultado.textContent = 'Error al cambiar estado de ROMON.';
+    resultado.style.color = 'salmon';
+    console.error(err);
+  });
+}
+
+
 
 // Cargar todo al iniciar
 cargarEquipos();
