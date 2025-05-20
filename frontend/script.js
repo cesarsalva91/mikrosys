@@ -35,6 +35,9 @@ document.getElementById('listaAcciones').addEventListener('click', function (e) 
   if (texto.startsWith("1")) {
     document.getElementById('modalGrupo').style.display = 'block';
   }
+  if (texto.startsWith("3")) {
+  document.getElementById('modalEliminarDirecto').style.display = 'block';
+  }
   if (texto.startsWith("2")) {
     document.getElementById('modal').style.display = 'block';
   }
@@ -230,6 +233,39 @@ function modificarRomon(habilitar) {
     resultado.style.color = 'salmon';
     console.error(err);
   });
+}
+
+function eliminarDirectamente() {
+  const idEquipo = document.getElementById('equipoSelect').value;
+  const tipo = document.getElementById('tipoEliminacion').value;
+  const nombre = document.getElementById('nombreEliminar').value.trim();
+  const resultado = document.getElementById('resultadoEliminarDirecto');
+
+  if (!idEquipo || !nombre) {
+    resultado.textContent = 'Debe completar todos los campos.';
+    resultado.style.color = 'salmon';
+    return;
+  }
+
+  fetch('http://localhost:5000/api/eliminar-directo', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ idEquipo, tipo, nombre })
+  })
+    .then(res => res.json().then(data => ({ status: res.status, body: data })))
+    .then(({ status, body }) => {
+      resultado.textContent = body.mensaje;
+      resultado.style.color = status === 200 ? 'lightgreen' : 'salmon';
+    })
+    .catch(err => {
+      resultado.textContent = 'Error al eliminar.';
+      resultado.style.color = 'salmon';
+      console.error(err);
+    });
+}
+
+function cerrarModalEliminarDirecto() {
+  document.getElementById('modalEliminarDirecto').style.display = 'none';
 }
 
 

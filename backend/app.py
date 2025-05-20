@@ -25,7 +25,7 @@ def obtener_acciones():
     acciones = [
         "1 - Cargar grupo de usuario",
         "2 - Crear usuarios",
-        "3 - Eliminar grupo y/o usuarios",
+        "3 - Eliminar grupo o usuario (por nombre exacto)",
         "4 - Modificar NTP",
         "5 - Modificar SNMP",
         "6 - Activar/Desactivar ROMON",
@@ -283,6 +283,36 @@ def modificar_ntp():
     )
 
     return jsonify({'mensaje': mensaje}), 200 if exito else 500
+
+@app.route('/api/eliminar-directo', methods=['POST'])
+def eliminar_directo():
+    data = request.get_json()
+    id_equipo = data.get('idEquipo')
+    tipo = data.get('tipo')  # 'usuario' o 'grupo'
+    nombre = data.get('nombre')
+
+    if not id_equipo or not tipo or not nombre:
+        return jsonify({'mensaje': 'Faltan datos'}), 400
+
+    conexion = obtener_conexion()
+    cursor = conexion.cursor(dictionary=True)
+    cursor.execute("SELECT ip, puerto, usuario, contrasena FROM equipos WHERE id = %s", (id_equipo,))
+    equipo = cursor.fetchone()
+    cursor.close()
+    conexion.close()
+
+    if not equipo:
+        return jsonify({'mensaje': 'Equipo no encontrado'}), 404
+
+    if tipo == "usuario":
+        exito, mensaje = eliminar_usuario(equipo['ip'], equipo['puerto'], equipo['usuario'], equipo['contrasena'], nombre)
+    elif tipo == "grupo":
+        exito, mensaje = eliminar_grupo(equipo['ip'], equipo['puerto'], equipo['usuario'], equipo['contrasena'], nombre)
+    else:
+        return jsonify({'mensaje': 'Tipo inválido'}), 400
+
+    return jsonify({'mensaje': mensaje}), 200 if exito else 500
+
 
 @app.route('/api/test', methods=['GET'])
 def test():

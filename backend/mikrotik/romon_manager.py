@@ -40,7 +40,7 @@ def aplicar_secret_romon(ip, puerto, usuario_api, clave_api, secret):
         api = pool.get_api()
         romon = api.get_resource('/tool/romon')
 
-        romon.set(secrets=secret)  # Campo corregido
+        romon.set(secrets=secret)  
 
         pool.disconnect()
         return True, "Contraseña (secret) aplicada correctamente"

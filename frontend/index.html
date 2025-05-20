@@ -74,18 +74,22 @@
 </div>
 
 
-  <div id="modalEliminar" class="modal">
-    <div class="modal-content">
-      <span class="cerrar" id="cerrarModalEliminar">&times;</span>
-      <h2>Eliminar Usuario o Grupo</h2>
-      <button onclick="cargarDatosEliminacion()">Cargar lista</button>
-      <h3>Usuarios</h3>
-      <ul id="listaUsuarios"></ul>
-      <h3>Grupos</h3>
-      <ul id="listaGrupos"></ul>
-      <p id="resultadoEliminacion"></p>
-    </div>
+  <div id="modalEliminarDirecto" class="modal">
+  <div class="modal-content">
+    <span class="cerrar" onclick="cerrarModalEliminarDirecto()">&times;</span>
+    <h2>Eliminar por nombre</h2>
+    <select id="tipoEliminacion">
+      <option value="usuario">Usuario</option>
+      <option value="grupo">Grupo</option>
+    </select>
+    <input type="text" id="nombreEliminar" placeholder="Nombre exacto a eliminar">
+    <button onclick="eliminarDirectamente()">Eliminar</button>
+    <p id="resultadoEliminarDirecto"></p>
   </div>
+</div>
+
+
+
 
   <script src="script.js"></script>
 </body>
