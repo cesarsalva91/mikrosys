@@ -122,6 +122,57 @@
   </div>
 </div>
 
+<div id="modalSNMP" class="modal">
+  <div class="modal-content">
+    <span class="cerrar" id="cerrarModalSNMP">&times;</span>
+    <h2>Configurar SNMP</h2>
+    <form id="formSNMP">
+      <div class="form-grupo">
+        <label><input type="checkbox" id="snmpHabilitado" checked> Habilitar SNMP</label>
+      </div>
+
+      <div class="form-grupo">
+        <label for="trapCommunity">Trap Community:</label>
+        <input class="input-control" type="text" id="trapCommunity" placeholder="public" required>
+      </div>
+
+      <div class="form-grupo">
+        <label for="trapVersion">Trap Version:</label>
+        <select class="input-control" id="trapVersion">
+          <option value="1">v1</option>
+          <option value="2">v2</option>
+        </select>
+      </div>
+
+      <div class="form-grupo">
+        <label for="trapGenerators">Trap Generator:</label>
+        <select class="input-control" id="trapGenerators">
+          <option value="temp-exception">temp-exception</option>
+          <option value="interfaces">interfaces</option>
+          <option value="voltage">voltage</option>
+          <option value="fan">fan</option>
+        </select>
+      </div>
+
+      <div class="form-grupo">
+        <label for="nombreComunidad">Nombre de Comunidad:</label>
+        <input class="input-control" type="text" id="nombreComunidad" placeholder="public">
+      </div>
+
+      <div class="form-grupo">
+        <label for="addressesComunidad">Direcciones (separadas por coma):</label>
+        <input class="input-control" type="text" id="addressesComunidad" placeholder="192.168.1.0/24,10.0.0.1">
+      </div>
+
+      <button type="submit" class="input-control">Aplicar configuración</button>
+    </form>
+
+    <p id="resultadoSNMP"></p>
+  </div>
+</div>
+
+
+
 
 
   <script src="script.js"></script>

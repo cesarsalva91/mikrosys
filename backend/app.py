@@ -7,6 +7,7 @@ from mikrotik.romon_manager import cambiar_estado_romon
 from mikrotik.group_manager import crear_grupo_router
 from mikrotik.skin_uploader import subir_skin_a_router
 from mikrotik.ntp_manager import configurar_ntp
+from mikrotik.snmp_manager import configurar_snmp
 
 import os
 import tempfile
@@ -315,10 +316,38 @@ def eliminar_directo():
 
     return jsonify({'mensaje': mensaje}), 200 if exito else 500
 
+@app.route('/api/modificar-snmp', methods=['POST'])
+def modificar_snmp():
+    data = request.get_json()
+    id_equipo = data.get('idEquipo')
+    configuracion = {
+        'habilitado': data.get('habilitado', True),
+        'trap_community': data.get('trap_community', ''),
+        'trap_version': data.get('trap_version', '1'),
+        'trap_generators': data.get('trap_generators', ''),
+        'comunidades': data.get('comunidades', [])
+    }
 
-@app.route('/api/test', methods=['GET'])
-def test():
-    return jsonify({'estado': 'activo'}), 200
+    conexion = obtener_conexion()
+    cursor = conexion.cursor(dictionary=True)
+    cursor.execute("SELECT ip, puerto, usuario, contrasena FROM equipos WHERE id = %s", (id_equipo,))
+    equipo = cursor.fetchone()
+    cursor.close()
+    conexion.close()
+
+    if not equipo:
+        return jsonify({'mensaje': 'Equipo no encontrado'}), 404
+
+    exito, mensaje = configurar_snmp(
+        ip=equipo['ip'],
+        puerto=equipo['puerto'],
+        usuario_api=equipo['usuario'],
+        clave_api=equipo['contrasena'],
+        configuracion=configuracion
+    )
+
+    return jsonify({'mensaje': mensaje}), 200 if exito else 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)

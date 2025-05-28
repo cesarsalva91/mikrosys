@@ -43,12 +43,19 @@ document.getElementById('listaAcciones').addEventListener('click', function (e) 
   }
   if (texto.startsWith("4")) {
   document.getElementById('modalNTP').style.display = 'block';
-}
-
+  }
+  if (texto.startsWith("5")) {
+  document.getElementById('modalSNMP').style.display = 'block';
+  }
   if (texto.startsWith("6")) {
     document.getElementById('modalRomon').style.display = 'block';
   }
 });
+
+document.getElementById('cerrarModalSNMP').addEventListener('click', function () {
+  document.getElementById('modalSNMP').style.display = 'none';
+});
+
 
 document.getElementById('cerrarModal').addEventListener('click', function () {
   document.getElementById('modal').style.display = 'none';
@@ -314,6 +321,60 @@ document.getElementById('formModificarNTP').addEventListener('submit', function 
 document.getElementById('cerrarModalNTP').addEventListener('click', function () {
   document.getElementById('modalNTP').style.display = 'none';
 });
+
+document.getElementById('formSNMP').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const idEquipo = document.getElementById('equipoSelect').value;
+  const habilitado = document.getElementById('snmpHabilitado').checked;
+  const trap_community = document.getElementById('trapCommunity').value.trim();
+  const trap_version = document.getElementById('trapVersion').value;
+  const trap_generators = document.getElementById('trapGenerators').value;
+  const resultado = document.getElementById('resultadoSNMP');
+
+  const nombreComunidad = document.getElementById('nombreComunidad').value.trim();
+  const addressesRaw = document.getElementById('addressesComunidad').value.trim();
+  const addresses = addressesRaw ? addressesRaw.split(',').map(d => d.trim()) : [];
+
+  if (!idEquipo || !trap_community) {
+    resultado.textContent = 'Faltan campos obligatorios.';
+    resultado.style.color = 'salmon';
+    return;
+  }
+
+  const comunidades = [];
+  if (nombreComunidad && addresses.length > 0) {
+    comunidades.push({
+      nombre: nombreComunidad,
+      direcciones: addresses
+    });
+  }
+
+  fetch('http://localhost:5000/api/modificar-snmp', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      idEquipo,
+      habilitado,
+      trap_community,
+      trap_version,
+      trap_generators,
+      comunidades
+    })
+  })
+    .then(res => res.json().then(data => ({ status: res.status, body: data })))
+    .then(({ status, body }) => {
+      resultado.textContent = body.mensaje;
+      resultado.style.color = status === 200 ? 'lightgreen' : 'salmon';
+    })
+    .catch(err => {
+      resultado.textContent = 'Error al aplicar configuración SNMP.';
+      resultado.style.color = 'salmon';
+      console.error(err);
+    });
+});
+
+
 
 
 
